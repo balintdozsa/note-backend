@@ -12,8 +12,18 @@ class NotesTableSeeder extends Seeder
     public function run()
     {
         DB::table('notes')->insert([
-            'user_id' => 1,
-            'note' => 'Test Note',
+            [
+                'user_id' => 1,
+                'note' => 'Test Note',
+            ],
+            [
+                'user_id' => 1,
+                'note' => 'Test Note 2',
+            ],
+            [
+                'user_id' => 5,
+                'note' => 'Test Note 3',
+            ]
         ]);
     }
 }
