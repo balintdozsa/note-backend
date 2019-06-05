@@ -15,9 +15,9 @@ class NotesController extends Controller
     }
 
     public function index(Request $request) {
-        $user_id = $request->route('user_id');
+        //$user_id = $request->route('user_id');
 
-        $notes = $this->notesRepository->getByUserId($user_id);
+        $notes = $this->notesRepository->getByUserId(1);
 
         return $notes->toJson();
     }
