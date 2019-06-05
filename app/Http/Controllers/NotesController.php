@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 use App\Repositories\NotesRepository;
 
@@ -15,9 +17,10 @@ class NotesController extends Controller
     }
 
     public function index(Request $request) {
-        //$user_id = $request->route('user_id');
+        $id = Auth::id();
+        //Log::info($id);
 
-        $notes = $this->notesRepository->getByUserId(1);
+        $notes = $this->notesRepository->getByUserId($id);
 
         return $notes->toJson();
     }
