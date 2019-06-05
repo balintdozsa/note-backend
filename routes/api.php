@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/login', 'Auth\LoginController@authenticate');
+Route::post('/login', 'Auth\LoginController@authenticate');
 
 Route::middleware('auth:api')->get('/notes', 'NotesController@index');
 
