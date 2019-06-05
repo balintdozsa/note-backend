@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/notes/{user_id}', 'NotesController@index')->middleware('auth.basic.once');
+Route::get('/notes/{user_id}', 'NotesController@index')->middleware('auth:api');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
