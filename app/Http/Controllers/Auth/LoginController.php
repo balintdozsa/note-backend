@@ -23,9 +23,9 @@ class LoginController extends Controller
                 'api_token' => hash('sha256', $token),
             ])->save();
 
-            return ['token' => $token];
+            return ['token' => $token,];
         }
 
-        return ['status' => 'failed', 'email' => $request->get('email')];
+        return ['status' => 'failed',];
     }
 }
