@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -16,12 +17,24 @@ class NotesController extends Controller
         $this->notesRepository = $notesRepository;
     }
 
-    public function index(Request $request) {
+    public function index() {
         $id = Auth::id();
-        //Log::info($id);
-
         $notes = $this->notesRepository->getByUserId($id);
 
-        return ["data" => $notes];
+        return response()->json(["data" => $notes,]);
+    }
+
+    public function add(Request $request) {
+        $note = $request->get('note');
+        if (empty($note)) return response()->json(["status" => "ok"]);
+
+        $id = Auth::id();
+
+        $note = new Notes();
+        $note->user_id = $id;
+        $note->note = $note;
+        $note->save();
+
+        return response()->json(["status" => "ok"]);
     }
 }

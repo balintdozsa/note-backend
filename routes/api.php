@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 Route::post('/login', 'Auth\LoginController@authenticate');
 
 Route::middleware('auth:api')->get('/notes', 'NotesController@index');
+Route::middleware('auth:api')->post('/notes/add', 'NotesController@add');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
