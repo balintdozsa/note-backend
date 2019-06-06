@@ -26,7 +26,7 @@ class NotesController extends Controller
 
     public function add(Request $request) {
         $note = $request->post('note');
-        if (empty($note)) return response()->json(["status" => "ok"]);
+        if (empty($note)) return response()->json(["status" => "fail"]);
 
         $id = Auth::id();
 
