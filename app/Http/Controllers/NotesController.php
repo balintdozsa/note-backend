@@ -22,6 +22,6 @@ class NotesController extends Controller
 
         $notes = $this->notesRepository->getByUserId($id);
 
-        return ["data" => $notes];
+        return (["data" => $notes])->toJson();
     }
 }
