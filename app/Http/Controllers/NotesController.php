@@ -25,15 +25,15 @@ class NotesController extends Controller
     }
 
     public function add(Request $request) {
-        $note = $request->all('note');
+        $note = $request->get('note');
         if (empty($note)) return response()->json(["status" => "fail"]);
 
-        $id = Auth::id();
+        $user_id = Auth::id();
 
-        $note = new Notes();
-        $note->user_id = $id;
-        $note->note = $note;
-        $note->save();
+        $newNote = new Notes();
+        $newNote->user_id = $user_id;
+        $newNote->note = $note;
+        $newNote->save();
 
         return response()->json(["status" => "ok"]);
     }
