@@ -15,4 +15,10 @@ class NotesRepository extends BaseRepository
 
         return $notes;
     }
+
+    public function getByIdAndUserId($id, $user_id) {
+        $notes = $this->model->where(['id' => $id, 'user_id' => $user_id])->first();
+
+        return $notes;
+    }
 }

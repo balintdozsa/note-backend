@@ -37,4 +37,16 @@ class NotesController extends Controller
 
         return response()->json(["status" => "ok"]);
     }
+
+    public function delete(Request $request) {
+        $id = $request->get('id');
+        if (empty($id)) return response()->json(["status" => "fail"]);
+
+        $user_id = Auth::id();
+
+        $note = $this->notesRepository->getByIdAndUserId($id, $user_id);
+        $note->delete();
+
+        return response()->json(["status" => "ok"]);
+    }
 }
