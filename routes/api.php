@@ -15,10 +15,13 @@ use Illuminate\Http\Request;
 
 Route::post('/login', 'Auth\LoginController@authenticate');
 
-Route::middleware('auth:api')->get('/notes', 'NotesController@index');
-Route::middleware('auth:api')->post('/notes/add', 'NotesController@add');
-Route::middleware('auth:api')->post('/notes/delete', 'NotesController@delete');
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => ['auth:api']], function () {
+    Route::get('/notes', 'NotesController@index');
+    Route::post('/notes/add', 'NotesController@add');
+    Route::post('/notes/modify', 'NotesController@modify');
+    Route::post('/notes/delete', 'NotesController@delete');
 });
+
+/*Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});*/
