@@ -6,6 +6,7 @@ use App\Models\Notes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 use App\Repositories\NotesRepository;
 
@@ -47,6 +48,7 @@ class NotesController extends Controller
 
         $note = $this->notesRepository->getByIdAndUserId($id, $user_id);
         $note->note = $modifiedNote;
+        $note->updated_at = Carbon::now();
         $note->save();
 
         return response()->json(["status" => "ok"]);
