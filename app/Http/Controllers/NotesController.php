@@ -25,15 +25,29 @@ class NotesController extends Controller
     }
 
     public function add(Request $request) {
-        $note = $request->get('note');
-        if (empty($note)) return response()->json(["status" => "fail"]);
+        $addedNote = $request->get('note');
+        if (empty($addedNote)) return response()->json(["status" => "fail"]);
 
         $user_id = Auth::id();
 
         $newNote = new Notes();
         $newNote->user_id = $user_id;
-        $newNote->note = $note;
+        $newNote->note = $addedNote;
         $newNote->save();
+
+        return response()->json(["status" => "ok"]);
+    }
+
+    public function modify(Request $request) {
+        $id = $request->get('id');
+        $modifiedNote = $request->get('note');
+        if (empty($id) || empty($modifiedNote)) return response()->json(["status" => "fail"]);
+
+        $user_id = Auth::id();
+
+        $note = $this->notesRepository->getByIdAndUserId($id, $user_id);
+        $note->note = $modifiedNote;
+        $note->save();
 
         return response()->json(["status" => "ok"]);
     }
