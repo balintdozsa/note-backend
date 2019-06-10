@@ -9,6 +9,20 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
+    private static $wasSetup = false;
+    protected static $token = null;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        if (!self::$wasSetup) {
+            self::$token = $this->initDb();
+        }
+
+        self::$wasSetup = true;
+    }
+
     private function setupTestDb() {
         // create test environment:
         $this->artisan('migrate:fresh');
@@ -28,6 +42,7 @@ abstract class TestCase extends BaseTestCase
 
         $content = $response->decodeResponseJson();
 
+        print "initDb\n";
         return $content['token'];
     }
 }

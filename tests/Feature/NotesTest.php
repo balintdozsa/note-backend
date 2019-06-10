@@ -8,9 +8,7 @@ use App\Models\Notes;
 class NotesTest extends TestCase
 {
     public function testListNotes() {
-        $token = $this->initDb();
-
-        $response = $this->get('/api/notes', ['Authorization' => 'Bearer '.$token,]);
+        $response = $this->get('/api/notes', ['Authorization' => 'Bearer '.self::$token,]);
 
         $response->assertStatus(200);
     }
