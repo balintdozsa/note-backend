@@ -25,6 +25,7 @@ abstract class TestCase extends BaseTestCase
 
     private function setupTestDb() {
         // create test environment:
+        $this->artisan('config:cache');
         $this->artisan('migrate:fresh');
         $this->artisan('passport:install');
     }
