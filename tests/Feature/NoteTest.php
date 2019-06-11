@@ -98,6 +98,10 @@ class NoteTest extends TestCase
         $content = $response->decodeResponseJson();
 
         $this->assertArrayHasKey('data', $content);
-        $this->assertEquals('Note25', $content['data'][count($content['data'])-1]['note']);
+        foreach ($content['data'] as $item) {
+            if ((int)$item['id'] === $note->id) {
+                $this->assertEquals('Note25', $item['note']);
+            }
+        }
     }
 }
