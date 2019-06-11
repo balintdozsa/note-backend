@@ -35,12 +35,12 @@ class UserController extends Controller
 
         if (empty($user_id) || empty($title) || empty($body)) return response()->json(["status" => "fail"]);
 
-        $post_token = $this->userRepository->getById($user_id)->post_token;
+        $push_token = $this->userRepository->getById($user_id)->push_token;
 
         $client = new Client();
         $response = $client->post('https://exp.host/--/api/v2/push/send', [
             'json' => [
-                'to' => 'ExponentPushToken['.$post_token.']',
+                'to' => 'ExponentPushToken['.$push_token.']',
                 'title' => $title,
                 'body' => $body,
             ],
@@ -49,6 +49,6 @@ class UserController extends Controller
             ],
         ]);
 
-        return response()->json(["status" => "ok"]);
+        return response()->json(["status" => "ok", "response" => json_decode($response->getBody()),]);
     }
 }
