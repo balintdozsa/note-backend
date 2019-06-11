@@ -76,4 +76,28 @@ class NoteTest extends TestCase
         $this->assertArrayHasKey('data', $content);
         $this->assertCount(2, $content['data']);
     }
+
+    public function testModifyNote() {
+        $note = factory(Note::class)->create([
+            'user_id' => 1,
+            'note' => 'Note21',
+        ]);
+
+        $response = $this->post('/api/note/modify', ['id' => $note->id, 'note' => 'Note25',], ['Authorization' => 'Bearer '.self::$token,]);
+
+        $response->assertStatus(200);
+        $content = $response->decodeResponseJson();
+
+        $this->assertArrayHasKey('status', $content);
+        $this->assertEquals('ok', $content['status']);
+
+
+        $response = $this->get('/api/note', ['Authorization' => 'Bearer '.self::$token,]);
+
+        $response->assertStatus(200);
+        $content = $response->decodeResponseJson();
+
+        $this->assertArrayHasKey('data', $content);
+        $this->assertEquals('Note25', $content['data'][count($content['data'])-1]['note']);
+    }
 }
