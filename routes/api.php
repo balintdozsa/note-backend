@@ -16,6 +16,9 @@ use Illuminate\Http\Request;
 Route::post('/login', 'Auth\LoginController@authenticate');
 
 Route::group(['middleware' => ['auth:api']], function () {
+    Route::get('/user', 'UserController@index');
+    Route::post('/user/setPushToken', 'UserController@setPushToken');
+
     Route::get('/note', 'NoteController@index');
     Route::post('/note/add', 'NoteController@add');
     Route::post('/note/modify', 'NoteController@modify');
