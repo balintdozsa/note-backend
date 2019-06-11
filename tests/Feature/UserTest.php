@@ -20,4 +20,9 @@ class UserTest extends TestCase
         $this->assertArrayHasKey('data', $content);
         $this->assertEquals($push_token, $content['data']['push_token']);
     }
+
+    public function testSendPushNotification() {
+        $response = $this->post('/api/user/sendPushNotification', ['user_id' => 1, 'title' => 'Title', 'body' => 'Body',], ['Authorization' => 'Bearer '.self::$token,]);
+        $response->assertStatus(200);
+    }
 }

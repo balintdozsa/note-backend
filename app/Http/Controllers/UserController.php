@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Repositories\UserRepository;
+use \GuzzleHttp\Client;
 
 class UserController extends Controller
 {
@@ -25,5 +26,29 @@ class UserController extends Controller
         $token = $request->get('token');
 
         $this->userRepository->modifyById(Auth::id(), ['push_token' => $token,]);
+    }
+
+    public function sendPushNotification(Request $request) {
+        $user_id = $request->get('user_id');
+        $title = $request->get('title');
+        $body = $request->get('body');
+
+        if (empty($user_id) || empty($title) || empty($body)) return response()->json(["status" => "fail"]);
+
+        $post_token = $this->userRepository->getById($user_id)->post_token;
+
+        $client = new Client();
+        $response = $client->post('https://exp.host/--/api/v2/push/send', [
+            'json' => [
+                'to' => 'ExponentPushToken['.$post_token.']',
+                'title' => $title,
+                'body' => $body,
+            ],
+            'header' => [
+                'Accept' => 'application/json', 'Content-Type' => 'application/json', 'Accept-Encoding' => 'gzip, deflate'
+            ],
+        ]);
+
+        return response()->json(["status" => "ok"]);
     }
 }
