@@ -16,6 +16,12 @@ class NoteTest extends TestCase
         $this->assertArrayHasKey('data', $content);
     }
 
+    public function testListNoteUnauthorized() {
+        $response = $this->get('/api/note', ['Authorization' => 'Bearer wrong_token',]);
+
+        $response->assertStatus(401);
+    }
+
     public function testAddNote() {
         $response = $this->post('/api/note/add', ['note' => 'Note01',], ['Authorization' => 'Bearer '.self::$token,]);
 
@@ -42,6 +48,12 @@ class NoteTest extends TestCase
 
         $this->assertArrayHasKey('data', $content);
         $this->assertCount(2, $content['data']);
+    }
+
+    public function testAddNoteUnauthorized() {
+        $response = $this->post('/api/note/add', ['note' => 'Note01',], ['Authorization' => 'Bearer wrong_token',]);
+
+        $response->assertStatus(401);
     }
 
     public function testDeleteNote() {
@@ -77,6 +89,12 @@ class NoteTest extends TestCase
         $this->assertCount(2, $content['data']);
     }
 
+    public function testDeleteNoteUnauthorized() {
+        $response = $this->post('/api/note/delete', ['id' => 1,], ['Authorization' => 'Bearer wrong_token',]);
+
+        $response->assertStatus(401);
+    }
+
     public function testModifyNote() {
         $note = factory(Note::class)->create([
             'user_id' => 1,
@@ -103,5 +121,11 @@ class NoteTest extends TestCase
                 $this->assertEquals('Note25', $item['note']);
             }
         }
+    }
+
+    public function testModifyNoteUnauthorized() {
+        $response = $this->post('/api/note/modify', ['id' => 1, 'note' => 'Note25',], ['Authorization' => 'Bearer wrong_token',]);
+
+        $response->assertStatus(401);
     }
 }
