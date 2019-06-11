@@ -2,12 +2,12 @@
 
 namespace App\Repositories;
 
-use App\Models\Notes;
+use App\Models\Note;
 
-class NotesRepository extends BaseRepository
+class NoteRepository extends BaseRepository
 {
     protected function getModel() {
-        return Notes::class;
+        return Note::class;
     }
 
     public function getByUserId($user_id) {

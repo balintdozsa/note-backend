@@ -35,6 +35,7 @@ abstract class TestCase extends BaseTestCase
         $this->setupTestDb();
 
         $user = factory(User::class)->create([
+            'id' => 1,
             'name' => 'test.user',
             'email' => 'test.user@example.com',
             'password' => bcrypt('test.pw'),

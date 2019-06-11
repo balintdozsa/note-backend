@@ -2,25 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Notes;
+use App\Models\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
-use App\Repositories\NotesRepository;
+use App\Repositories\NoteRepository;
 
-class NotesController extends Controller
+class NoteController extends Controller
 {
-    private $notesRepository;
+    private $noteRepository;
 
-    public function __construct(NotesRepository $notesRepository) {
-        $this->notesRepository = $notesRepository;
+    public function __construct(NoteRepository $noteRepository) {
+        $this->noteRepository = $noteRepository;
     }
 
     public function index() {
         $id = Auth::id();
-        $notes = $this->notesRepository->getByUserId($id);
+        $notes = $this->noteRepository->getByUserId($id);
 
         return response()->json(["data" => $notes,]);
     }
@@ -31,7 +31,7 @@ class NotesController extends Controller
 
         $user_id = Auth::id();
 
-        $newNote = new Notes();
+        $newNote = new Note();
         $newNote->user_id = $user_id;
         $newNote->note = $addedNote;
         $newNote->save();
@@ -46,7 +46,7 @@ class NotesController extends Controller
 
         $user_id = Auth::id();
 
-        $note = $this->notesRepository->getByIdAndUserId($id, $user_id);
+        $note = $this->noteRepository->getByIdAndUserId($id, $user_id);
         $note->note = $modifiedNote;
         $note->updated_at = Carbon::now();
         $note->save();
@@ -60,7 +60,7 @@ class NotesController extends Controller
 
         $user_id = Auth::id();
 
-        $note = $this->notesRepository->getByIdAndUserId($id, $user_id);
+        $note = $this->noteRepository->getByIdAndUserId($id, $user_id);
         $note->delete();
 
         return response()->json(["status" => "ok"]);
