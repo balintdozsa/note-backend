@@ -19,8 +19,7 @@ class NoteController extends Controller
     }
 
     public function index() {
-        $id = Auth::id();
-        $notes = $this->noteRepository->getByUserId($id);
+        $notes = $this->noteRepository->getByUserId(Auth::id());
 
         return response()->json(["data" => $notes,]);
     }
@@ -29,12 +28,7 @@ class NoteController extends Controller
         $addedNote = $request->get('note');
         if (empty($addedNote)) return response()->json(["status" => "fail"]);
 
-        $user_id = Auth::id();
-
-        $newNote = new Note();
-        $newNote->user_id = $user_id;
-        $newNote->note = $addedNote;
-        $newNote->save();
+        $this->noteRepository->add(['user_id' => Auth::id(), 'note' => $addedNote,]);
 
         return response()->json(["status" => "ok"]);
     }
@@ -44,12 +38,10 @@ class NoteController extends Controller
         $modifiedNote = $request->get('note');
         if (empty($id) || empty($modifiedNote)) return response()->json(["status" => "fail"]);
 
-        $user_id = Auth::id();
-
-        $note = $this->noteRepository->getByIdAndUserId($id, $user_id);
-        $note->note = $modifiedNote;
-        $note->updated_at = Carbon::now();
-        $note->save();
+        $this->noteRepository->modifyByIdAndUserId($id, Auth::id(), [
+            'note' => $modifiedNote,
+            'updated_at' => Carbon::now(),
+        ]);
 
         return response()->json(["status" => "ok"]);
     }
@@ -58,10 +50,7 @@ class NoteController extends Controller
         $id = $request->get('id');
         if (empty($id)) return response()->json(["status" => "fail"]);
 
-        $user_id = Auth::id();
-
-        $note = $this->noteRepository->getByIdAndUserId($id, $user_id);
-        $note->delete();
+        $this->noteRepository->deleteByIdAndUserId($id, Auth::id());
 
         return response()->json(["status" => "ok"]);
     }
