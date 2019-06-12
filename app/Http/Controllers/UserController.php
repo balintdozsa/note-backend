@@ -6,14 +6,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Repositories\UserRepository;
+use App\Repositories\UserPushTokenRepository;
 use \GuzzleHttp\Client;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
     private $userRepository;
+    private $userPushTokenRepository;
 
-    public function __construct(UserRepository $userRepository) {
+    public function __construct(UserRepository $userRepository, UserPushTokenRepository $userPushTokenRepository) {
         $this->userRepository = $userRepository;
+        $this->userPushTokenRepository = $userPushTokenRepository;
     }
 
     public function index() {
@@ -25,7 +29,9 @@ class UserController extends Controller
     public function setPushToken(Request $request) {
         $token = $request->get('token');
 
-        $this->userRepository->modifyById(Auth::id(), ['push_token' => $token,]);
+        //$this->userRepository->modifyById(Auth::id(), ['push_token' => $token,]);
+
+        $this->userPushTokenRepository->add(['user_id' => Auth::id(), 'push_token' => $token,]);
     }
 
     public function sendPushNotification(Request $request) {
@@ -35,15 +41,20 @@ class UserController extends Controller
 
         if (empty($user_id) || empty($title) || empty($body)) return response()->json(["status" => "fail"]);
 
-        $push_token = $this->userRepository->getById($user_id)->push_token;
+        //$push_token = $this->userRepository->getById($user_id)->push_token;
+        $pushTokens = $this->userPushTokenRepository->getByUserId($user_id);
+        $notifications = [];
+        foreach ($pushTokens as $pushToken) {
+            $notifications[] = [
+                'to' => 'ExponentPushToken['.$pushToken->push_token.']',
+                'title' => $title,
+                'body' => $body,
+            ];
+        }
 
         $client = new Client();
         $response = $client->post('https://exp.host/--/api/v2/push/send', [
-            'json' => [
-                'to' => 'ExponentPushToken['.$push_token.']',
-                'title' => $title,
-                'body' => $body,
-            ],
+            'json' => $notifications,
             'header' => [
                 'Accept' => 'application/json', 'Content-Type' => 'application/json', 'Accept-Encoding' => 'gzip, deflate'
             ],
