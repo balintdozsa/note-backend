@@ -25,7 +25,7 @@ class NoteController extends Controller
     }
 
     public function add(Request $request) {
-        $addedNote = $request->get('note');
+        $addedNote = $request->post('note');
         if (empty($addedNote)) return response()->json(["status" => "fail"]);
 
         $this->noteRepository->add(['user_id' => Auth::id(), 'note' => $addedNote,]);
@@ -34,8 +34,8 @@ class NoteController extends Controller
     }
 
     public function modify(Request $request) {
-        $id = $request->get('id');
-        $modifiedNote = $request->get('note');
+        $id = $request->post('id');
+        $modifiedNote = $request->post('note');
         if (empty($id) || empty($modifiedNote)) return response()->json(["status" => "fail"]);
 
         $this->noteRepository->modifyByIdAndUserId($id, Auth::id(), [
@@ -47,7 +47,7 @@ class NoteController extends Controller
     }
 
     public function delete(Request $request) {
-        $id = $request->get('id');
+        $id = $request->post('id');
         if (empty($id)) return response()->json(["status" => "fail"]);
 
         $this->noteRepository->deleteByIdAndUserId($id, Auth::id());

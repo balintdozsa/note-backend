@@ -35,9 +35,9 @@ class UserController extends Controller
     }
 
     public function sendPushNotification(Request $request) {
-        $user_id = $request->get('user_id');
-        $title = $request->get('title');
-        $body = $request->get('body');
+        $user_id = $request->post('user_id');
+        $title = $request->post('title');
+        $body = $request->post('body');
 
         if (empty($user_id) || empty($title) || empty($body)) return response()->json(["status" => "fail"]);
 
