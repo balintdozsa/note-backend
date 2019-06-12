@@ -27,7 +27,7 @@ class UserController extends Controller
     }
 
     public function setPushToken(Request $request) {
-        $token = $request->get('token');
+        $token = $request->post('token');
 
         //$this->userRepository->modifyById(Auth::id(), ['push_token' => $token,]);
 
