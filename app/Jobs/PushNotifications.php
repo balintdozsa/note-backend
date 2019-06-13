@@ -13,14 +13,18 @@ class PushNotifications implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    private $user_id, $title, $body;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($user_id, $title, $body)
     {
-        //
+        $this->user_id = $user_id;
+        $this->title = $title;
+        $this->body = $body;
     }
 
     /**
@@ -28,8 +32,8 @@ class PushNotifications implements ShouldQueue
      *
      * @return void
      */
-    public function handle($user_id, $title, $body)
+    public function handle()
     {
-        $resp = PushNotification::send($user_id, $title, $body);
+        $resp = PushNotification::send($this->user_id, $this->title, $this->body);
     }
 }
