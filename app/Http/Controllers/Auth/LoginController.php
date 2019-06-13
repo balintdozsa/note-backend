@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Jobs\PushNotifications;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -22,6 +23,8 @@ class LoginController extends Controller
             $token = $tokenResult->token;
             $token->expires_at = Carbon::now()->addWeeks(1);
             $token->save();
+
+            PushNotifications::dispatch(Auth::id(), 'You have just logged in', Carbon::now())->delay(now()->addMinutes(1));
 
             return [
                 'token' => $tokenResult->accessToken,

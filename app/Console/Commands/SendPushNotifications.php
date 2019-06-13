@@ -38,6 +38,6 @@ class SendPushNotifications extends Command
      */
     public function handle()
     {
-        PushNotifications::dispatch()->delay(now()->addMinutes(1));
+
     }
 }

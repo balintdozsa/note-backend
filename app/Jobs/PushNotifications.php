@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Utils\PushNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -27,8 +28,8 @@ class PushNotifications implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle($user_id, $title, $body)
     {
-        print("Testing...");
+        $resp = PushNotification::send($user_id, $title, $body);
     }
 }
