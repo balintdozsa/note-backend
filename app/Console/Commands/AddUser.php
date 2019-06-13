@@ -12,7 +12,7 @@ class AddUser extends Command
      *
      * @var string
      */
-    protected $signature = 'user:add';
+    protected $signature = 'add:user';
 
     /**
      * The console command description.

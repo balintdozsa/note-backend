@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Jobs\PushNotifications;
+use App\Jobs\PushNotificationJob;
 
-class SendPushNotifications extends Command
+class SendPushNotification extends Command
 {
     /**
      * The name and signature of the console command.
