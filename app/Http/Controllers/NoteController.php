@@ -28,7 +28,7 @@ class NoteController extends Controller
         $addedNote = $request->post('note');
         if (empty($addedNote)) return response()->json(["status" => "fail"]);
 
-        $this->noteRepository->add(['user_id' => Auth::id(), 'note' => $addedNote,]);
+        $this->noteRepository->create(['user_id' => Auth::id(), 'note' => $addedNote,]);
 
         return response()->json(["status" => "ok"]);
     }

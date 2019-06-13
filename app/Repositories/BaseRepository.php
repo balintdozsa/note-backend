@@ -18,8 +18,12 @@ abstract class BaseRepository
         return $this->model->find($id);
     }
 
-    public function add($attributes = []) {
+    public function create($attributes = []) {
         $this->model->create($attributes);
+    }
+
+    public function updateOrCreate($attributes = [], $updateAttributes = []) {
+        $this->model->updateOrCreate($attributes, $updateAttributes);
     }
 
     public function modifyById($id, $attributes = []) {

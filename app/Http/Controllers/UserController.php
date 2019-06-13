@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Repositories\UserRepository;
 use App\Repositories\UserPushTokenRepository;
 use App\Utils\PushNotification;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -30,7 +31,7 @@ class UserController extends Controller
 
         //$this->userRepository->modifyById(Auth::id(), ['push_token' => $token,]);
 
-        $this->userPushTokenRepository->add(['user_id' => Auth::id(), 'push_token' => $token,]);
+        $this->userPushTokenRepository->updateOrCreate(['push_token' => $token,], ['user_id' => Auth::id(), 'created_at' => Carbon::now(),]);
     }
 
     public function sendPushNotification(Request $request) {
