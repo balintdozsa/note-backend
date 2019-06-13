@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Repositories\UserRepository;
 use App\Repositories\UserPushTokenRepository;
-use \GuzzleHttp\Client;
-use Carbon\Carbon;
+use App\Utils\PushNotification;
 
 class UserController extends Controller
 {
@@ -39,27 +38,8 @@ class UserController extends Controller
         $title = $request->post('title');
         $body = $request->post('body');
 
-        if (empty($user_id) || empty($title) || empty($body)) return response()->json(["status" => "fail"]);
+        $resp = PushNotification::send($user_id, $title, $body);
 
-        //$push_token = $this->userRepository->getById($user_id)->push_token;
-        $pushTokens = $this->userPushTokenRepository->getByUserId($user_id);
-        $notifications = [];
-        foreach ($pushTokens as $pushToken) {
-            $notifications[] = [
-                'to' => 'ExponentPushToken['.$pushToken->push_token.']',
-                'title' => $title,
-                'body' => $body,
-            ];
-        }
-
-        $client = new Client();
-        $response = $client->post('https://exp.host/--/api/v2/push/send', [
-            'json' => $notifications,
-            'header' => [
-                'Accept' => 'application/json', 'Content-Type' => 'application/json', 'Accept-Encoding' => 'gzip, deflate'
-            ],
-        ]);
-
-        return response()->json(["status" => "ok", "response" => json_decode($response->getBody()),]);
+        return response()->json($resp);
     }
 }
