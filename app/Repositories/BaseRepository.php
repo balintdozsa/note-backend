@@ -19,7 +19,7 @@ abstract class BaseRepository
     }
 
     public function create($attributes = []) {
-        $this->model->create($attributes);
+        return $this->model->create($attributes);
     }
 
     public function updateOrCreate($attributes = [], $updateAttributes = []) {

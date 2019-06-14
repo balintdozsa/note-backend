@@ -24,7 +24,13 @@ class LoginController extends Controller
             $token->expires_at = Carbon::now()->addWeeks(1);
             $token->save();
 
-            PushNotificationJob::dispatch(Auth::id(), 'You have just logged in', Carbon::now())->delay(now()->addMinutes(1));
+            $params = [
+                'user_id' => Auth::id(),
+                'title' => 'You have just logged in',
+                'body' => Carbon::now()->format('Y.m.d. H:i:s'),
+            ];
+
+            PushNotificationJob::dispatch($params)->delay(now()->addMinutes(1));
 
             return [
                 'token' => $tokenResult->accessToken,
