@@ -15,6 +15,9 @@ class PushNotificationJob implements ShouldQueue
 
     private $user_id, $title, $body;
 
+    public $tries = 12;
+    public $retryAfter = 15;
+
     /**
      * Create a new job instance.
      *
