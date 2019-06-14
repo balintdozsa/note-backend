@@ -28,11 +28,13 @@ class TimeRecognition
             switch (strlen($time)) {
                 case 5:
                     $time = Carbon::now()->format('Y-m-d') . ' ' . $time . ':00';
+                    $recognizedTimes[] = $time;
+                    break;
                 case 16:
                     $time .= ':00';
+                    $recognizedTimes[] = $time;
+                    break;
             }
-
-            $recognizedTimes[] = $time;
         }
 
         return $recognizedTimes;
