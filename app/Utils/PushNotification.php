@@ -18,6 +18,7 @@ class PushNotification
                 'to' => 'ExponentPushToken['.$pushToken->push_token.']',
                 'title' => $title,
                 'body' => $body,
+                'sound' => 'default',
             ];
         }
 

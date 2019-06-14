@@ -58,6 +58,7 @@ class SendReminderPushNotification extends Command
                 'to' => 'ExponentPushToken['.$noteReminder->push_token.']',
                 'title' => 'Reminder notification',
                 'body' => $noteReminder->note,
+                'sound' => 'default',
             ];
         }
 
