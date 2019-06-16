@@ -12,7 +12,7 @@ class TimeRecognition
         $patterns = [];
         $patterns[] = "/\d{4}\-\d{2}\-\d{2}\ \d{2}\:\d{2}/"; // 2010-01-01 12:15
         $patterns[] = "/\d{4}\.\d{2}\.\d{2}(\.|)\ \d{2}\:\d{2}/";
-        $patterns[] = "/(?<!\d{2}(\.|)\ )\d{2}\:\d{2}/"; // 14:40 without two number and space before it
+        $patterns[] = "/(?<!\d{2}\ )\d{2}\:\d{2}/"; // 14:40 without two number and space before it
         $patterns[] = "/(?<!\d{2}.)\d{2}\.\d{2}(\.|)\ \d{2}\:\d{2}/"; //06.16 16:40
 
         $matches = [];
