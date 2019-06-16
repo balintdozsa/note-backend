@@ -6,13 +6,14 @@ use Carbon\Carbon;
 
 class TimeRecognition
 {
-    public static function run($content = '') {
+    public static function run($content = '', $timeZone = 'UTC') {
         $recognizedTimes = [];
 
         $patterns = [];
         $patterns[] = "/\d{4}\-\d{2}\-\d{2}\ \d{2}\:\d{2}/"; // 2010-01-01 12:15
-        $patterns[] = "/\d{4}\.\d{2}\.\d{2}\ \d{2}\:\d{2}/";
+        $patterns[] = "/\d{4}\.\d{2}\.\d{2}(\.|)\ \d{2}\:\d{2}/";
         $patterns[] = "/(?<!\d{2}\ )\d{2}\:\d{2}/"; // 14:40 without two number and space before it
+        $patterns[] = "/(?<!\d{2}.)\d{2}\.\d{2}(\.|)\ \d{2}\:\d{2}/"; //06.16 16:40
 
         $matches = [];
         foreach ($patterns as $pattern) {
@@ -24,10 +25,16 @@ class TimeRecognition
         }
 
         foreach ($matches as $time) {
+            $time = str_replace('. ', ' ', $time);
             $time = str_replace('.', '-', $time);
+
             switch (strlen($time)) {
                 case 5:
-                    $time = Carbon::now()->format('Y-m-d') . ' ' . $time . ':00';
+                    $time = Carbon::now()->timezone($timeZone)->format('Y-m-d') . ' ' . $time . ':00';
+                    $recognizedTimes[] = $time;
+                    break;
+                case 11:
+                    $time = Carbon::now()->timezone($timeZone)->format('Y') . '-' . $time . ':00';
                     $recognizedTimes[] = $time;
                     break;
                 case 16:

@@ -35,7 +35,7 @@ class NoteController extends Controller
         $note = $this->noteRepository->create(['user_id' => Auth::id(), 'note' => $addedNote,]);
 
         $timeZone = $request->post('time_zone') ?? 'Europe/Budapest';
-        $recognizedTimes = TimeRecognition::run($addedNote);
+        $recognizedTimes = TimeRecognition::run($addedNote, $timeZone);
         foreach ($recognizedTimes as $recognizedTime) {
             $localTime = Carbon::createFromFormat('Y-m-d H:i:s', $recognizedTime, $timeZone);
             $utcTime = Carbon::createFromFormat('Y-m-d H:i:s', $recognizedTime, $timeZone)
