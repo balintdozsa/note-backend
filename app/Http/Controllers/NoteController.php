@@ -11,6 +11,7 @@ use Carbon\Carbon;
 
 use App\Repositories\NoteRepository;
 use App\Repositories\NoteReminderRepository;
+use App\Events\NoteChanges;
 
 class NoteController extends Controller
 {
@@ -35,9 +36,12 @@ class NoteController extends Controller
         $note = $this->noteRepository->create(['user_id' => Auth::id(), 'note' => $addedNote,]);
 
         $timeZone = $request->post('time_zone') ?? 'Europe/Budapest';
-        $recognizedTimes = TimeRecognition::run($addedNote, $timeZone);
 
-        $this->noteReminderRepository->addReminders($note->id, $recognizedTimes, $timeZone);
+        event(new NoteChanges($note, $timeZone));
+
+        //$recognizedTimes = TimeRecognition::run($addedNote, $timeZone);
+
+        //$this->noteReminderRepository->addReminders($note->id, $recognizedTimes, $timeZone);
 
         return response()->json(["status" => "ok"]);
     }
