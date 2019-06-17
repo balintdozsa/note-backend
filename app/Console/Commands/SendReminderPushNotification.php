@@ -2,12 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\PushNotificationJob;
-use App\Models\NoteReminder;
 use Illuminate\Console\Command;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class SendReminderPushNotification extends Command
 {
