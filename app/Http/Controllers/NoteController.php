@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 use App\Repositories\NoteRepository;
-use App\Events\NoteChanges;
+use App\Events\ChangeNote;
 
 class NoteController extends Controller
 {
@@ -30,7 +30,7 @@ class NoteController extends Controller
 
         $note = $this->noteRepository->create(['user_id' => Auth::id(), 'note' => $addedNote,]);
 
-        event(new NoteChanges($note, $timeZone));
+        event(new ChangeNote($note, $timeZone));
 
         return response()->json(["status" => "ok"]);
     }
@@ -46,7 +46,7 @@ class NoteController extends Controller
             'updated_at' => Carbon::now(),
         ]);
 
-        event(new NoteChanges($note, $timeZone));
+        event(new ChangeNote($note, $timeZone));
 
         return response()->json(["status" => "ok"]);
     }
@@ -58,7 +58,7 @@ class NoteController extends Controller
 
         $note = $this->noteRepository->deleteByIdAndUserId($id, Auth::id());
 
-        event(new NoteChanges($note, $timeZone, true));
+        event(new ChangeNote($note, $timeZone, true));
 
         return response()->json(["status" => "ok"]);
     }

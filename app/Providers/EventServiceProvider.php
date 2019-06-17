@@ -18,7 +18,7 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        'App\Events\NoteChanges' => [
+        'App\Events\ChangeNote' => [
             'App\Listeners\ScheduleNotification',
         ],
     ];

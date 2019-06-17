@@ -11,7 +11,7 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\Models\Note;
 
-class NoteChanges
+class ChangeNote
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 

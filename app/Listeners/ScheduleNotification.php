@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\NoteChanges;
+use App\Events\ChangeNote;
 use App\Repositories\NoteReminderRepository;
 use App\Utils\TimeRecognition;
 use Illuminate\Queue\InteractsWithQueue;
@@ -25,10 +25,10 @@ class ScheduleNotification
     /**
      * Handle the event.
      *
-     * @param  NoteChanges  $event
+     * @param  ChangeNote  $event
      * @return void
      */
-    public function handle(NoteChanges $event)
+    public function handle(ChangeNote $event)
     {
         $this->noteReminderRepository->deleteByColumns(['note_id' => $event->note->id,]);
 
