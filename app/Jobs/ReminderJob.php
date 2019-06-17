@@ -69,6 +69,8 @@ class ReminderJob implements ShouldQueue
             'notifications' => $notifications,
         ];
 
-        PushNotificationJob::dispatch($params);
+        if (count($notifications)) {
+            PushNotificationJob::dispatch($params);
+        }
     }
 }
