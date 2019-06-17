@@ -28,8 +28,7 @@ class NoteRepository extends BaseRepository
 
     public function deleteByIdAndUserId($id, $user_id) {
         $note = $this->getByIdAndUserId($id, $user_id);
-        $noteToDel = $note;
-        $noteToDel->delete();
+        $note->delete();
         return $note;
     }
 }

@@ -15,17 +15,18 @@ class NoteChanges
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $note, $timeZone;
+    public $note, $timeZone, $del;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Note $note, $timeZone = 'UTC')
+    public function __construct(Note $note, $timeZone = 'UTC', $del = false)
     {
         $this->note = $note;
         $this->timeZone = $timeZone;
+        $this->del = $del;
     }
 
     /**

@@ -58,7 +58,7 @@ class NoteController extends Controller
 
         $note = $this->noteRepository->deleteByIdAndUserId($id, Auth::id());
 
-        event(new NoteChanges($note, $timeZone));
+        event(new NoteChanges($note, $timeZone, true));
 
         return response()->json(["status" => "ok"]);
     }
