@@ -36,18 +36,8 @@ class NoteController extends Controller
 
         $timeZone = $request->post('time_zone') ?? 'Europe/Budapest';
         $recognizedTimes = TimeRecognition::run($addedNote, $timeZone);
-        foreach ($recognizedTimes as $recognizedTime) {
-            $localTime = Carbon::createFromFormat('Y-m-d H:i:s', $recognizedTime, $timeZone);
-            $utcTime = Carbon::createFromFormat('Y-m-d H:i:s', $recognizedTime, $timeZone)
-                ->setTimezone('UTC');
 
-            $this->noteReminderRepository->create([
-                'note_id' => $note->id,
-                'utc_notification_time' => $utcTime,
-                'local_notification_time' => $localTime,
-                'local_time_zone' => $timeZone,
-            ]);
-        }
+        $this->noteReminderRepository->addReminders($note->id, $recognizedTimes, $timeZone);
 
         return response()->json(["status" => "ok"]);
     }
