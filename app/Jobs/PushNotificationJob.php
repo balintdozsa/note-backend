@@ -41,8 +41,6 @@ class PushNotificationJob implements ShouldQueue
     {
         if (is_array($this->notifications) && count($this->notifications)) {
             PushNotification::sendToAll($this->notifications);
-        } else {
-            PushNotification::send($this->user_id, $this->title, $this->body);
         }
     }
 }
