@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Repositories\NoteReminderRepository;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -37,12 +38,22 @@ class ReminderJob implements ShouldQueue
         $noteReminders = DB::table('note_reminders')
             ->join('notes', 'notes.id', '=', 'note_reminders.note_id')
             ->join('user_push_tokens', 'user_push_tokens.user_id', '=', 'notes.user_id')
-            ->where('note_reminders.utc_notification_time', '=', $now)
+            ->where('note_reminders.utc_notification_time', '<=', $now)
+            ->where('note_reminders.sent', '=', 0)
             ->where('user_push_tokens.id', '!=', null)
-            ->get(['notes.note','note_reminders.utc_notification_time','user_push_tokens.push_token']);
+            ->get([
+                'notes.note',
+                'note_reminders.id',
+                'note_reminders.utc_notification_time',
+                'user_push_tokens.push_token',
+            ]);
 
+        $ids = [];
         $notifications = [];
+
         foreach ($noteReminders as $noteReminder) {
+            $ids[] = $noteReminder->id;
+
             $notifications[] = [
                 'to' => 'ExponentPushToken['.$noteReminder->push_token.']',
                 'title' => 'Reminder notification',
@@ -50,6 +61,9 @@ class ReminderJob implements ShouldQueue
                 'sound' => 'default',
             ];
         }
+
+        $nr = new NoteReminderRepository();
+        $nr->modifyByIds($ids, ['sent' => true,]);
 
         $params = [
             'notifications' => $notifications,

@@ -11,5 +11,6 @@ class NoteReminder extends Model
         'utc_notification_time',
         'local_notification_time',
         'local_time_zone',
+        'sent',
     ];
 }

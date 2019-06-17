@@ -18,6 +18,10 @@ abstract class BaseRepository
         return $this->model->find($id);
     }
 
+    public function getByIds($ids = []) {
+        return $this->model->findMany($ids);
+    }
+
     public function create($attributes = []) {
         return $this->model->create($attributes);
     }
@@ -28,6 +32,10 @@ abstract class BaseRepository
 
     public function modifyById($id, $attributes = []) {
         $this->getById($id)->update($attributes);
+    }
+
+    public function modifyByIds($ids = [], $attributes = []) {
+        $this->getByIds($ids)->update($attributes);
     }
 
     public function deleteById($id) {
