@@ -54,10 +54,11 @@ class NoteController extends Controller
     public function delete(Request $request) {
         $id = $request->post('id');
         if (empty($id)) return response()->json(["status" => "fail"]);
+        $timeZone = $request->post('time_zone') ?? 'Europe/Budapest';
 
         $note = $this->noteRepository->deleteByIdAndUserId($id, Auth::id());
 
-        event(new NoteChanges($note));
+        event(new NoteChanges($note, $timeZone));
 
         return response()->json(["status" => "ok"]);
     }
