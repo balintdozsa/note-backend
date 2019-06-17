@@ -42,7 +42,7 @@ abstract class BaseRepository
     }
 
     public function modifyByColumns($columns = [], $attributes = []) {
-        $items = $this->where($columns)->get();
+        $items = $this->model->where($columns)->get();
         foreach ($items as $item) {
             $item->update($attributes);
         }
@@ -60,7 +60,7 @@ abstract class BaseRepository
     }
 
     public function deleteByColumns($columns = []) {
-        $items = $this->where($columns)->get();
+        $items = $this->model->where($columns)->get();
         foreach ($items as $item) {
             $item->delete();
         }
