@@ -31,6 +31,8 @@ class ScheduleNotification
     public function handle(NoteChanges $event)
     {
         $recognizedTimes = TimeRecognition::run($event->note->note, $event->timeZone);
+
+        $this->noteReminderRepository->deleteByColumns(['note_id' => $event->note->id,]);
         $this->noteReminderRepository->addReminders($event->note->id, $recognizedTimes, $event->timeZone);
     }
 }

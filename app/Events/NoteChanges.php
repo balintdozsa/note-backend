@@ -22,7 +22,7 @@ class NoteChanges
      *
      * @return void
      */
-    public function __construct(Note $note, $timeZone)
+    public function __construct(Note $note, $timeZone = 'UTC')
     {
         $this->note = $note;
         $this->timeZone = $timeZone;

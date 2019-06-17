@@ -23,10 +23,12 @@ class NoteRepository extends BaseRepository
     public function modifyByIdAndUserId($id, $user_id, $attributes = []) {
         $note = $this->getByIdAndUserId($id, $user_id);
         $note->update($attributes);
+        return $note;
     }
 
     public function deleteByIdAndUserId($id, $user_id) {
         $note = $this->getByIdAndUserId($id, $user_id);
         $note->delete();
+        return $note;
     }
 }
