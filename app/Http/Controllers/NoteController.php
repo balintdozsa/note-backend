@@ -52,6 +52,12 @@ class NoteController extends Controller
             'updated_at' => Carbon::now(),
         ]);
 
+        $timeZone = $request->post('time_zone') ?? 'Europe/Budapest';
+        $recognizedTimes = TimeRecognition::run($modifiedNote, $timeZone);
+
+        $this->noteReminderRepository->deleteByColumns(['note_id' => $id,]);
+        $this->noteReminderRepository->addReminders($id, $recognizedTimes, $timeZone);
+
         return response()->json(["status" => "ok"]);
     }
 

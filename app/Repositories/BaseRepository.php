@@ -41,7 +41,28 @@ abstract class BaseRepository
         }
     }
 
+    public function modifyByColumns($columns = [], $attributes = []) {
+        $items = $this->where($columns)->get();
+        foreach ($items as $item) {
+            $item->update($attributes);
+        }
+    }
+
     public function deleteById($id) {
         $this->getById($id)->delete();
+    }
+
+    public function deleteByIds($ids = []) {
+        $items = $this->getByIds($ids);
+        foreach ($items as $item) {
+            $item->delete();
+        }
+    }
+
+    public function deleteByColumns($columns = []) {
+        $items = $this->where($columns)->get();
+        foreach ($items as $item) {
+            $item->delete();
+        }
     }
 }
