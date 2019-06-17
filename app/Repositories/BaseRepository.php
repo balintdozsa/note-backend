@@ -35,7 +35,10 @@ abstract class BaseRepository
     }
 
     public function modifyByIds($ids = [], $attributes = []) {
-        $this->getByIds($ids)->update($attributes);
+        $items = $this->getByIds($ids);
+        foreach ($items as $item) {
+            $item->update($attributes);
+        }
     }
 
     public function deleteById($id) {
