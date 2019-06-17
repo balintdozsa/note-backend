@@ -67,6 +67,8 @@ class NoteController extends Controller
 
         $this->noteRepository->deleteByIdAndUserId($id, Auth::id());
 
+        $this->noteReminderRepository->deleteByColumns(['note_id' => $id,]);
+
         return response()->json(["status" => "ok"]);
     }
 }
