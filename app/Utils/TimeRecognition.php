@@ -32,16 +32,20 @@ class TimeRecognition
             switch (strlen($time)) {
                 case 5:
                     $time = Carbon::now()->timezone($timeZone)->format('Y-m-d') . ' ' . $time . ':00';
-                    $recognizedTimes[] = $time;
                     break;
                 case 11:
                     $time = Carbon::now()->timezone($timeZone)->format('Y') . '-' . $time . ':00';
-                    $recognizedTimes[] = $time;
                     break;
                 case 16:
                     $time .= ':00';
-                    $recognizedTimes[] = $time;
                     break;
+            }
+
+            try {
+                Carbon::parse($time);
+                $recognizedTimes[] = $time;
+            } catch (\Exception $e) {
+
             }
         }
 
