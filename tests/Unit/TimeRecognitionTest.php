@@ -37,7 +37,7 @@ class TimeRecognitionTest extends TestCase
         $this->assertEquals('2019-10-10 12:44:00', $tr[1]);
         $this->assertEquals('2019-10-10 12:45:00', $tr[2]);
         $this->assertEquals('2019-10-10 12:46:00', $tr[3]);
-        $this->assertEquals('2019-10-10 12:54:00', $tr[4]);
-        $this->assertEquals('2019-10-10 12:55:00', $tr[5]);
+        $this->assertEquals(Carbon::now()->timezone($timeZone)->format('Y').'-10-10 12:54:00', $tr[4]);
+        $this->assertEquals(Carbon::now()->timezone($timeZone)->format('Y').'-10-10 12:55:00', $tr[5]);
     }
 }
