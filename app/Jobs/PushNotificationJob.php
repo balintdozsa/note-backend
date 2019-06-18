@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Utils\PushNotification;
+use App\Utils\SendPushNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -36,7 +36,7 @@ class PushNotificationJob implements ShouldQueue
     public function handle()
     {
         if (is_array($this->notifications) && count($this->notifications)) {
-            PushNotification::sendToAll($this->notifications);
+            SendPushNotification::sendToAll($this->notifications);
         }
     }
 }

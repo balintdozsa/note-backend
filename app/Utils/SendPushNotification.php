@@ -4,7 +4,7 @@ namespace App\Utils;
 
 use GuzzleHttp\Client;
 
-class PushNotification
+class SendPushNotification
 {
     public static function sendToAll($notifications = []) {
         $client = new Client();
