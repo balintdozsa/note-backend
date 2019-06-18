@@ -4,8 +4,6 @@ namespace App\Repositories;
 
 use App\Models\NoteReminder;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
-
 
 class NoteReminderRepository extends BaseRepository
 {
@@ -31,7 +29,7 @@ class NoteReminderRepository extends BaseRepository
     public function getActiveReminders(&$ids = [], &$notifications = []) {
         $now = Carbon::now()->timezone('UTC')->format('Y-m-d H:i:00');
 
-        $noteReminders = DB::table('note_reminders')
+        $noteReminders = $this->model
             ->join('notes', 'notes.id', '=', 'note_reminders.note_id')
             ->join('user_push_tokens', 'user_push_tokens.user_id', '=', 'notes.user_id')
             ->where('note_reminders.utc_notification_time', '<=', $now)
