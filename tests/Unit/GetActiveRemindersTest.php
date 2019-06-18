@@ -41,4 +41,12 @@ class GetActiveRemindersTest extends TestCase
         $this->assertEquals('ExponentPushToken[1]', $notifications[0]['to']);
         $this->assertEquals('Note11', $notifications[0]['body']);
     }
+
+    public function tearDown(): void {
+        Note::query()->truncate();
+        NoteReminder::query()->truncate();
+        UserPushToken::query()->truncate();
+
+        parent::tearDown();
+    }
 }
