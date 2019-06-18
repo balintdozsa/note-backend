@@ -17,6 +17,9 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         if (!self::$wasSetup) {
+            //config(['database.connections.mysql.database' => 'altair_test']);
+            $this->artisan('config:clear');
+
             self::$token = $this->initDb();
         }
 
@@ -25,8 +28,6 @@ abstract class TestCase extends BaseTestCase
 
     private function setupTestDb() {
         // create test environment:
-        //$this->artisan('cache:clear');
-        //$this->artisan('config:cache');
         $this->artisan('migrate:fresh');
         $this->artisan('passport:install');
     }
