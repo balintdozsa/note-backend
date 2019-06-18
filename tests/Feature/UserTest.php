@@ -17,6 +17,7 @@ class UserTest extends TestCase
         $response->assertStatus(200);
         $content = $response->decodeResponseJson();
         $this->assertArrayHasKey('data', $content);
-        //$this->assertEquals($push_token, $content['data']['push_token']);
+        $this->assertArrayHasKey('push_tokens', $content['data']);
+        $this->assertEquals($push_token, $content['data']['push_tokens'][0]['push_token']);
     }
 }

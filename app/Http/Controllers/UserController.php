@@ -21,6 +21,7 @@ class UserController extends Controller
 
     public function index() {
         $user = $this->userRepository->getById(Auth::id());
+        $user['push_tokens'] = $user->pushTokens;
 
         return response()->json(["data" => $user,]);
     }
