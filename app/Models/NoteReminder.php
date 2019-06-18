@@ -13,4 +13,9 @@ class NoteReminder extends Model
         'local_time_zone',
         'sent',
     ];
+
+    public function note()
+    {
+        return $this->belongsTo('App\Models\Note', 'note_id', 'id');
+    }
 }

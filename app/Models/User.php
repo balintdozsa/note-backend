@@ -37,4 +37,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function notes()
+    {
+        return $this->hasMany('App\Models\Note', 'user_id', 'id');
+    }
+
+    public function pushTokens()
+    {
+        return $this->hasMany('App\Models\UserPushToken', 'user_id', 'id');
+    }
 }
