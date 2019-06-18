@@ -14,7 +14,6 @@ class PushNotificationJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $notifications = [];
-    private $user_id, $title, $body = null;
 
     public $tries = 12;
     public $retryAfter = 15;
@@ -27,9 +26,6 @@ class PushNotificationJob implements ShouldQueue
     public function __construct($params = [])
     {
         $this->notifications = $params['notifications'] ?? [];
-        $this->user_id = $params['user_id'] ?? null;
-        $this->title = $params['title'] ?? null;
-        $this->body = $params['body'] ?? null;
     }
 
     /**
