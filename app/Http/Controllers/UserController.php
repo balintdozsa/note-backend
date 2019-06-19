@@ -40,8 +40,8 @@ class UserController extends Controller
     }
 
     public function destroyTokens(Request $request) {
-        $token = $request->post('token');
-        $pushToken = $request->post('pushToken');
+        //$token = $request->post('token');
+        $pushToken = $request->post('push_token');
 
         $this->userPushTokenRepository->deleteByColumns(['user_id' => Auth::id(), 'push_token' => $pushToken,]);
 
