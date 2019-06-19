@@ -18,7 +18,7 @@ Route::post('/login', 'Auth\LoginController@authenticate');
 Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/user', 'UserController@index');
     Route::post('/user/setPushToken', 'UserController@setPushToken');
-    Route::post('/user/sendPushNotification', 'UserController@sendPushNotification');
+    Route::post('/user/destroyTokens', 'UserController@destroyTokens');
 
     Route::get('/note', 'NoteController@index');
     Route::post('/note/add', 'NoteController@add');

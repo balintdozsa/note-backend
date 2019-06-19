@@ -35,5 +35,18 @@ class UserController extends Controller
             'user_id' => Auth::id(),
             'created_at' => Carbon::now(),
         ]);
+
+        return response()->json(["status" => "ok"]);
+    }
+
+    public function destroyTokens(Request $request) {
+        $token = $request->post('token');
+        $pushToken = $request->post('pushToken');
+
+        $this->userPushTokenRepository->deleteByColumns(['user_id' => Auth::id(), 'push_token' => $pushToken,]);
+
+        Auth::user()->token()->revoke();
+
+        return response()->json(["status" => "ok"]);
     }
 }
