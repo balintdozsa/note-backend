@@ -39,13 +39,10 @@ class UserController extends Controller
         return response()->json(["status" => "ok"]);
     }
 
-    public function destroyTokens(Request $request) {
-        //$token = $request->post('token');
+    public function unsetPushToken(Request $request) {
         $pushToken = $request->post('push_token');
 
-        $this->userPushTokenRepository->deleteByColumns(['user_id' => Auth::id(), 'push_token' => $pushToken,]);
-
-        Auth::user()->token()->revoke();
+        $this->userPushTokenRepository->deleteByColumns(['push_token' => $pushToken,]);
 
         return response()->json(["status" => "ok"]);
     }

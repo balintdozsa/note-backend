@@ -14,11 +14,11 @@ use Illuminate\Http\Request;
 */
 
 Route::post('/login', 'Auth\LoginController@authenticate');
+Route::post('/user/unsetPushToken', 'UserController@unsetPushToken');
 
 Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/user', 'UserController@index');
     Route::post('/user/setPushToken', 'UserController@setPushToken');
-    Route::post('/user/destroyTokens', 'UserController@destroyTokens');
 
     Route::get('/note', 'NoteController@index');
     Route::post('/note/add', 'NoteController@add');
