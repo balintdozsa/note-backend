@@ -28,6 +28,8 @@ class UserController extends Controller
 
     public function revokeUserToken() {
         Auth::user()->token()->revoke();
+
+        return response()->json(["status" => "ok"]);
     }
 
     public function setPushToken(Request $request) {
