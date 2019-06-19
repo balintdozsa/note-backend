@@ -18,6 +18,7 @@ Route::post('/user/unsetPushToken', 'UserController@unsetPushToken');
 
 Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/user', 'UserController@index');
+    Route::post('/user/revokeUserToken', 'UserController@revokeUserToken');
     Route::post('/user/setPushToken', 'UserController@setPushToken');
 
     Route::get('/note', 'NoteController@index');
